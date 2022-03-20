@@ -14,9 +14,10 @@ jobs:
       - run:
           command: pwd
       - run:
-          sls deploy -p   /home/circleci/project/first-func
+          command: ( cd first-func ; sls deploy )
+          
       - run:
-          ls -l sec-func
+          command: ( cd sec-func ; sls deploy )
       
      # - run:
      #     command: npm install 
