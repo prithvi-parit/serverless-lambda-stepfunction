@@ -13,8 +13,12 @@ jobs:
           command: ls
       - run:
           command: pwd
-     # - run:
-     #     command: npm i --save
+      - run:
+          command: ( cd first-func ; sls deploy )
+          
+      - run:
+          command: ( cd sec-func ; sls deploy )
+      
      # - run:
      #     command: npm install 
 
