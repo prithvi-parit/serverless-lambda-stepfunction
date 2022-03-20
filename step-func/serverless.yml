@@ -1,0 +1,79 @@
+service: python-testing-serverless-4
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-step-functions
+provider:
+  name: aws
+  runtime: python3.8
+  profile: user2
+  region: us-east-1
+  
+custom:
+  accountId: 363833884943
+
+functions:
+  hello:
+    handler: handler.hello
+stepFunctions:
+  stateMachines:
+    hellostepfunc1:
+      events:
+        - http:
+            path: gofunction
+            method: GET
+
+      definition:
+        Comment: A description of my state machine
+        StartAt: first
+        States:
+         first:
+            Type: Task
+            Resource: arn:aws:states:::lambda:invoke
+            OutputPath: "$.Payload"
+            Parameters:
+              Payload.$: "$"
+              FunctionName: arn:aws:lambda:us-east-1:${self:custom.accountId}:function:first-func
+            Retry:
+            - ErrorEquals:
+              - Lambda.ServiceException
+              - Lambda.AWSLambdaException
+              - Lambda.SdkClientException
+              IntervalSeconds: 2
+              MaxAttempts: 6
+              BackoffRate: 2
+            Next: second
+         second:
+            Type: Task
+            Resource: arn:aws:states:::lambda:invoke
+            OutputPath: "$.Payload"
+            Parameters:
+              Payload.$: "$"
+              FunctionName: arn:aws:lambda:us-east-1:${self:custom.accountId}:function:second
+            Retry:
+            - ErrorEquals:
+              - Lambda.ServiceException
+              - Lambda.AWSLambdaException
+              - Lambda.SdkClientException
+              IntervalSeconds: 2
+              MaxAttempts: 6
+              BackoffRate: 2
+            Next: third
+         third:
+            Type: Task
+            Resource: arn:aws:states:::lambda:invoke
+            OutputPath: "$.Payload"
+            Parameters:
+              Payload.$: "$"
+              FunctionName: arn:aws:lambda:us-east-1:${self:custom.accountId}:function:third
+            Retry:
+            - ErrorEquals:
+              - Lambda.ServiceException
+              - Lambda.AWSLambdaException
+              - Lambda.SdkClientException
+              IntervalSeconds: 2
+              MaxAttempts: 6
+              BackoffRate: 2
+            End: true
+
