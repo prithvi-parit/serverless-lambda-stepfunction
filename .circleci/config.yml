@@ -4,7 +4,7 @@ orbs:
 jobs:
   build-and-deploy:
     docker:
-      - image: cimg/node:17.7.1
+      - image: circleci/node:14.18.1 
     steps:
       - checkout
       - run:
@@ -25,8 +25,8 @@ jobs:
       - run:
           command: ( cd sec-func ; sls deploy )
       
-     # - run:
-     #     command: npm install 
+      - run:
+          command: npm install 
 
             #- run:
             #command: chmod +x ./.circleci/install-credentials.sh
