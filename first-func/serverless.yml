@@ -1,0 +1,13 @@
+service: multiple-lambda-function-dev-1
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  profile: user2
+
+functions:
+  hello:
+    handler: handler.hello
+
