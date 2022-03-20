@@ -14,7 +14,7 @@ jobs:
       - run:
           command: pwd
       - run:
-          ls -l  first-func
+          sls deploy -p   /home/circleci/project/first-func
       - run:
           ls -l sec-func
       
