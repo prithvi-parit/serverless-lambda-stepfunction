@@ -14,13 +14,10 @@ jobs:
       - run:
           command: pwd
       - run:
-          cd first-func
+          ls -l  first-func
       - run:
-          ls
-      - run:
-          cd ../sec-func
-      - run:
-          ls
+          ls -l sec-func
+      
      # - run:
      #     command: npm install 
 
