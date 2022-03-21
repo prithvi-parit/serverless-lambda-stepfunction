@@ -1,4 +1,4 @@
-service: new-step-function
+service: new-step-function-demo
 
 frameworkVersion: '3'
 
