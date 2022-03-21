@@ -41,3 +41,7 @@ workflows:
       jobs:
         - build-and-deploy:
               context: serverlessProject
+              filter:
+                branches:
+                  only:
+                    - staging
