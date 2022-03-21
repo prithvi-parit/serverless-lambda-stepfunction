@@ -2,7 +2,41 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-deploy:
+  build-and-deploy-staging:
+    docker:
+      - image: circleci/node:14.18.1 
+    steps:
+      - checkout
+      - run:
+          command: sudo npm i -g serverless 
+      - run:
+          command: ls
+      - run:
+          command: pwd
+     # - run:
+        #  command: npm install
+      - run:
+           command: chmod +x ./.circleci/install-credentials.sh
+      - run:
+            command: ./.circleci/install-credentials.sh
+      - run:
+          command: ( cd first-func ; sls deploy )
+          
+      - run:
+          command: ( cd sec-func ; sls deploy )
+      
+      - run:
+          command: npm install 
+      - run:
+          command: ( cd step-func ; sls deploy )
+            #- run:
+            #command: chmod +x ./.circleci/install-credentials.sh
+            #- run:
+            #command: ./.circleci/install-credentials.sh
+            # - run:
+            #command: sls deploy
+
+  build-and-deploy-production:
     docker:
       - image: circleci/node:14.18.1 
     steps:
@@ -39,9 +73,15 @@ jobs:
 workflows:
     build-and-deploy:
       jobs:
-        - build-and-deploy:
+        - build-and-deploy-staging:
               context: serverlessProject
               filters:
                 branches:
                     only:
                       - staging
+        - build-and-deploy-production:
+              context: serverlessProject
+              filters:
+                branches:
+                    only:
+                      - production
